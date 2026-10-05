@@ -1,7 +1,7 @@
 ﻿const UNIT_ORDER = {"الفصل الأول": 0, "الفصل الثاني": 1, "الفصل الثالث": 2, "الفصل الرابع": 3, "القسم النظري": 4, "القسم العملي": 5};
 const LESSON_ORDER = {"المحاضرة 1": 0, "المحاضرة 2": 1, "المحاضرة 3": 2, "المحاضرة 4": 3, "المحاضرة 5": 4, "المحاضرة 6": 5, "المحاضرة 7": 6, "المحاضرة 8": 7, "المحاضرة الأولى": 8, "المحاضرة الثانية": 9, "المحاضرة الثالثة": 10};
 
-ï»؟import { app, auth, db, onAuthStateChanged, signOut, collection, getDocs, getDoc, doc, setDoc, updateDoc, query, where, addDoc, deleteDoc } from './firebase-init.js';
+import { app, auth, db, onAuthStateChanged, signOut, collection, getDocs, getDoc, doc, setDoc, updateDoc, query, where, addDoc, deleteDoc } from './firebase-init.js';
 
 const state = {
   data: null,
@@ -1205,5 +1205,7 @@ onAuthStateChanged(auth, async (user) => {
 };
 init();
 });
+
+
 
 
