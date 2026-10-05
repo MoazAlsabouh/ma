@@ -195,14 +195,14 @@ async function fetchLessons() {
 
 async function fetchProgress() {
   if (!auth.currentUser) return [];
-  const q = query(collection(db, "progress"), where("user", "==", auth.currentUser.uid));
+  const q = query(collection(db, "progress"));
   const snap = await getDocs(q);
   return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 }
 
 async function fetchExams() {
   if (!auth.currentUser) return [];
-  const q = query(collection(db, "exams"), where("user", "==", auth.currentUser.uid));
+  const q = query(collection(db, "exams"));
   const snap = await getDocs(q);
   const exams = snap.docs.map(d => ({ id: d.id, ...d.data() }));
   return exams.sort((a, b) => new Date(a.at) - new Date(b.at));
@@ -210,14 +210,14 @@ async function fetchExams() {
 
 async function fetchChannels() {
   if (!auth.currentUser) return [];
-  const q = query(collection(db, "channels"), where("user", "==", auth.currentUser.uid));
+  const q = query(collection(db, "channels"));
   const snap = await getDocs(q);
   return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 }
 
 async function fetchWeeklyTasks() {
   if (!auth.currentUser) return [];
-  const q = query(collection(db, "weeklyTasks"), where("user", "==", auth.currentUser.uid));
+  const q = query(collection(db, "weeklyTasks"));
   const snap = await getDocs(q);
   const tasks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
@@ -241,7 +241,7 @@ async function fetchWeeklyTasks() {
 async function fetchWeeklyActivities() {
   if (!auth.currentUser) return { weeks: [], current: null, window: {} };
   
-  const q = query(collection(db, "weeklyActivity"), where("user", "==", auth.currentUser.uid));
+  const q = query(collection(db, "weeklyActivity"));
   const snap = await getDocs(q);
   const activities = snap.docs.map(d => ({ id: d.id, ...d.data() }));
   
@@ -639,7 +639,7 @@ function renderLessons(subjectName) {
       try {
         const allowed = { "الدراسة الأولى": "first", "المراجعة الأولى": "review1", "المراجعة الثانية": "review2", "مراجعة التثبيت": "retention", "المراجعة الامتحانية الأخيرة": "final" };
   const key = allowed[el.dataset.prop];
-  const q = query(collection(db, "progress"), where("user", "==", auth.currentUser.uid), where("lesson", "==", el.dataset.id));
+  const q = query(collection(db, "progress"), where("lesson", "==", el.dataset.id));
   const snap = await getDocs(q);
   if (!snap.empty) {
     await updateDoc(snap.docs[0].ref, { [key]: el.checked });
@@ -1205,6 +1205,7 @@ onAuthStateChanged(auth, async (user) => {
 };
 init();
 });
+
 
 
 
