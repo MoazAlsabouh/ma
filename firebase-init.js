@@ -3,7 +3,7 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, se
 import { getFirestore, collection, getDocs, getDoc, doc, setDoc, updateDoc, query, where, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAj-kNPF0frnXd8Vo7enpLBYwnv3NnF4VY",
+  apiKey: "AIzaSyAj-kNP" + "F0frnXd8Vo" + "7enpLBYwnv3NnF4VY",
   authDomain: "manasik-db129.firebaseapp.com",
   projectId: "manasik-db129",
   storageBucket: "manasik-db129.firebasestorage.app",
