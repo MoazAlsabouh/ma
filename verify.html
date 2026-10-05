@@ -1,0 +1,50 @@
+﻿<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خُطى | رفيقك نحو التفوق</title><link rel="stylesheet" href="login.css">
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+</head>
+<body>
+  <main class="login-shell">
+    <section class="login-card">
+      <div class="brand"><img src="logo.jpg" alt="Logo" style="height: 60px; border-radius: 8px;"></div>
+      <h1>التحقق من البريد</h1>
+      <p>لقد أرسلنا رمز تحقق إلى بريدك الإلكتروني.</p>
+      
+      <form id="verifyForm" autocomplete="off">
+        <label>رمز التحقق<input id="code" name="code" type="text" required placeholder="أدخل الرمز المكون من 6 أرقام" style="text-align:center; letter-spacing: 5px; font-size: 1.5em;"></label>
+        <button type="submit">تأكيد الرمز</button>
+        <div id="verifyError" class="error" hidden></div>
+      </form>
+    </section>
+  </main>
+  <script type="module">
+    import { auth } from './firebase-init.js';
+    import { applyActionCode } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    
+    const params = new URLSearchParams(location.search);
+    const code = params.get('oobCode');
+    
+    if (code) {
+      document.getElementById('verifyForm').innerHTML = '<p>جاري التحقق من بريدك الإلكتروني...</p>';
+      applyActionCode(auth, code).then(() => {
+        document.getElementById('verifyForm').innerHTML = '<p style="color:green;">تم التحقق من بريدك بنجاح! <a href="/index.html">الذهاب للرئيسية</a></p>';
+      }).catch(err => {
+        document.getElementById('verifyForm').innerHTML = '<p style="color:red;">فشل التحقق: ' + err.message + '</p>';
+      });
+    } else {
+      document.getElementById('verifyForm').innerHTML = '<p style="color:red;">رابط غير صالح.</p>';
+    }
+  </script>
+
+  <footer style="text-align: center; padding: 20px; font-size: 0.9em; color: #666; margin-top: 40px; border-top: 1px solid #eee;">
+    جميع الحقوق محفوظة معاذ الصبوح &copy; <script>document.write(new Date().getFullYear())</script><br>
+    <div style="margin-top: 10px; display: flex; justify-content: center; gap: 15px;">
+      <a href="https://github.com/MoazAlsabouh/" target="_blank" style="color: #4CAF50; text-decoration: none;">GitHub</a>
+      <a href="https://www.linkedin.com/in/moazalsabouh/" target="_blank" style="color: #4CAF50; text-decoration: none;">LinkedIn</a>
+      <a href="https://x.com/moazAlsabouh" target="_blank" style="color: #4CAF50; text-decoration: none;">X (Twitter)</a>
+    </div>
+  </footer>
+\n</body>
+</html>
