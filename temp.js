@@ -1,5 +1,5 @@
-﻿const UNIT_ORDER = {"الفصل الأول": 0, "الفصل الثاني": 1, "الفصل الثالث": 2, "الفصل الرابع": 3, "القسم النظري": 4, "القسم العملي": 5};
-const LESSON_ORDER = {"المحاضرة 1": 0, "المحاضرة 2": 1, "المحاضرة 3": 2, "المحاضرة 4": 3, "المحاضرة 5": 4, "المحاضرة 6": 5, "المحاضرة 7": 6, "المحاضرة 8": 7, "المحاضرة الأولى": 8, "المحاضرة الثانية": 9, "المحاضرة الثالثة": 10};
+﻿const UNIT_ORDER = {"����� �����": 0, "����� ������": 1, "����� ������": 2, "����� ������": 3, "����� ������": 4, "����� ������": 5};
+const LESSON_ORDER = {"�������� 1": 0, "�������� 2": 1, "�������� 3": 2, "�������� 4": 3, "�������� 5": 4, "�������� 6": 5, "�������� 7": 6, "�������� 8": 7, "�������� ������": 8, "�������� �������": 9, "�������� �������": 10};
 
 import { app, auth, db, onAuthStateChanged, signOut, collection, getDocs, getDoc, doc, setDoc, updateDoc, query, where, addDoc, deleteDoc } from './firebase-init.js';
 
@@ -26,7 +26,7 @@ const esc = (v = "") => String(v).replace(/[&<>"']/g, c => ({
 }[c]));
 const attr = esc;
 
-const subjectsFallback = ["قواعد بيانات", "برمجة 1", "خوارزميات", "شبكات حاسوب", "رياضيات متقطعة", "لغة إنجليزية"];
+const subjectsFallback = ["����� ������", "����� 1", "���������", "����� �����", "������� ������", "��� ��������"];
 
 // الأيام الدراسية الخمسة المعتمدة فقط (من الأحد إلى الخميس)
 const WEEKDAYS = [
@@ -107,7 +107,7 @@ if (true) {
           </a>
           <nav class="nav">
             <a class="${active === "dashboard" ? "active" : ""}" href="index.html">الرئيسية</a>
-            <a class="${active === "subjects" ? "active" : ""}" href="subjects.html">المقررات</a>
+            <a class="${active === "subjects" ? "active" : ""}" href="subjects.html">المواد</a>
             <a class="${active === "weekly" ? "active" : ""}" href="weekly.html">الجدول</a>
             <a class="${active === "exams" ? "active" : ""}" href="exams.html">الامتحانات</a>
             <a class="${active === "channels" ? "active" : ""}" href="channels.html">القنوات</a>
@@ -385,7 +385,7 @@ function renderDashboard(d, examsList = []) {
         <div class="overall-value">${overall}%</div>
         ${bar(overall)}
         <div class="stats-row">
-          <div><b>${totalLessons}</b><span>محاضرةً</span></div>
+          <div><b>${totalLessons}</b><span>درسًا</span></div>
           <div><b>${subjectsList.length}</b><span>مواد</span></div>
           <div><b>${totalDoneStages}</b><span>مراحل منجزة</span></div>
         </div>
@@ -404,10 +404,10 @@ function renderDashboard(d, examsList = []) {
     <section class="section-block">
       <div class="section-title">
         <div>
-          <h2>📊 نظرة سريعة على المقررات</h2>
-          <p>اضغط على أي مادة لفتح صفحتها وتفاصيل الوحدات والمحاضرات.</p>
+          <h2>📊 نظرة سريعة على المواد</h2>
+          <p>اضغط على أي مادة لفتح صفحتها وتفاصيل الوحدات والدروس.</p>
         </div>
-        <a class="button secondary" href="subjects.html">كل المقررات</a>
+        <a class="button secondary" href="subjects.html">كل المواد</a>
       </div>
       <div class="subject-grid">
         ${subjectsList.map(s => `
@@ -417,7 +417,7 @@ function renderDashboard(d, examsList = []) {
               <strong>${s.percent || 0}%</strong>
             </div>
             ${bar(s.percent || 0, "mini-progress")}
-            <small>${s.lessons || 0} محاضرة</small>
+            <small>${s.lessons || 0} درس</small>
           </a>
         `).join("")}
       </div>
@@ -427,7 +427,7 @@ function renderDashboard(d, examsList = []) {
       <div class="section-title">
         <div>
           <h2>🧭 مراحل الدراسة</h2>
-          <p>تقدم كل مرحلة على مستوى جميع المحاضرات.</p>
+          <p>تقدم كل مرحلة على مستوى جميع الدروس.</p>
         </div>
       </div>
       <div class="stage-grid">
@@ -435,7 +435,7 @@ function renderDashboard(d, examsList = []) {
           <article class="stage-card">
             <strong>${s.percent || 0}%</strong>
             <b>${esc(s.label || "مرحلة")}</b>
-            <span>${s.done || 0} من ${s.total || 0} محاضرة</span>
+            <span>${s.done || 0} من ${s.total || 0} درس</span>
             ${bar(s.percent || 0)}
           </article>
         `).join("")}
@@ -473,7 +473,7 @@ async function dashboardPage() {
 
 async function subjectsPage() {
   shell({
-    title: "المقررات",
+    title: "المواد",
     subtitle: "كل مادة لها صفحة مستقلة حتى تبقى الدراسة مرتبة وواضحة.",
     active: "subjects"
   }, `<div id="subjectPageGrid" class="subject-grid large"></div>`);
@@ -494,8 +494,8 @@ async function subjectsPage() {
           </div>
           ${bar(s.percent || 0)}
           <div class="subject-meta">
-            <span>${s.lessons || 0} محاضرة</span>
-            <span>فتح المقرر ←</span>
+            <span>${s.lessons || 0} درس</span>
+            <span>فتح المادة ←</span>
           </div>
           <div class="tiny-stages">
             ${stages.map(x => `<span>${esc(x.label)}: <b>${x.percent || 0}%</b></span>`).join("")}
@@ -515,10 +515,10 @@ function renderSubjectPage(d, subjectName) {
   const subject = (d?.subjects || []).find(x => x.subject === subjectName);
   if (!subject) {
     shell({
-      title: "المقرر غير موجودة",
-      subtitle: "اختر مادة من قائمة المقررات.",
+      title: "المادة غير موجودة",
+      subtitle: "اختر مادة من قائمة المواد.",
       active: "subjects"
-    }, `<div class="card empty"><a class="button" href="subjects.html">العودة إلى المقررات</a></div>`);
+    }, `<div class="card empty"><a class="button" href="subjects.html">العودة إلى المواد</a></div>`);
     return;
   }
 
@@ -526,12 +526,12 @@ function renderSubjectPage(d, subjectName) {
 
   shell({
     title: subject.subject,
-    subtitle: `${subject.lessons} محاضرة • إنجاز المقرر ${subject.percent}%`,
+    subtitle: `${subject.lessons} درس • إنجاز المادة ${subject.percent}%`,
     active: "subjects"
   }, `
     <section class="subject-summary card">
       <div>
-        <span class="card-kicker">تقدم المقرر</span>
+        <span class="card-kicker">تقدم المادة</span>
         <strong class="summary-percent">${subject.percent}%</strong>
       </div>
       <div class="summary-progress">
@@ -552,10 +552,10 @@ function renderSubjectPage(d, subjectName) {
     <section class="card lessons-card">
       <div class="section-title">
         <div>
-          <h2>📖 وحدات المقرر</h2>
+          <h2>📖 وحدات المادة</h2>
           <p>نعرض وحدة واحدة في كل مرة لتكون المتابعة أسلس.</p>
         </div>
-        <a class="button secondary" href="subjects.html">← كل المقررات</a>
+        <a class="button secondary" href="subjects.html">← كل المواد</a>
       </div>
       <div class="unit-toolbar">
         <button id="prevUnit" class="secondary">→ السابقة</button>
@@ -571,8 +571,8 @@ function renderSubjectPage(d, subjectName) {
     <section class="card">
       <div class="section-title">
         <div>
-          <h2>🎥 مصادر هذه المقرر</h2>
-          <p>القنوات وقوائم التشغيل المرتبطة بالمقرر.</p>
+          <h2>🎥 مصادر هذه المادة</h2>
+          <p>القنوات وقوائم التشغيل المرتبطة بالمادة.</p>
         </div>
         <a class="button secondary" href="channels.html">إدارة المصادر</a>
       </div>
@@ -582,7 +582,7 @@ function renderSubjectPage(d, subjectName) {
 
 function getUnitsForSubject(subjectName) {
   const rows = state.lessons.filter(x => x.subject === subjectName);
-  const units = [...new Set(rows.map(x => x.unit || "محاضرات بدون وحدة"))];
+  const units = [...new Set(rows.map(x => x.unit || "دروس بدون وحدة"))];
   return { rows, units };
 }
 
@@ -592,14 +592,14 @@ function renderLessons(subjectName) {
     $("unitCounter").textContent = "لا توجد وحدات";
     $("unitTitle").textContent = "—";
     $("unitProgress").innerHTML = "";
-    $("lessons").innerHTML = `<div class="empty">لا توجد محاضرات مسجلة لهذه المقرر.</div>`;
+    $("lessons").innerHTML = `<div class="empty">لا توجد دروس مسجلة لهذه المادة.</div>`;
     $("prevUnit").disabled = $("nextUnit").disabled = true;
     return;
   }
 
   state.unitIndex = Math.max(0, Math.min(state.unitIndex, units.length - 1));
   const unit = units[state.unitIndex];
-  const unitRows = rows.filter(x => (x.unit || "محاضرات بدون وحدة") === unit).sort((a, b) => (LESSON_ORDER[a.lesson] ?? 9999) - (LESSON_ORDER[b.lesson] ?? 9999));
+  const unitRows = rows.filter(x => (x.unit || "دروس بدون وحدة") === unit).sort((a, b) => (LESSON_ORDER[a.lesson] ?? 9999) - (LESSON_ORDER[b.lesson] ?? 9999));
   const checks = unitRows.reduce((sum, x) => sum + x.stages.filter(s => s.checked).length, 0);
   const total = unitRows.length * 5;
   const percent = total ? Math.round((checks / total) * 100) : 0;
@@ -688,7 +688,7 @@ async function renderSubjectChannels(subjectName) {
   const rows = (await fetchChannels()).filter(x => x.subject === subjectName);
   $("subjectChannels").innerHTML = rows.length
     ? rows.map(channelCard).join("")
-    : `<div class="empty">لا توجد مصادر مسجلة لهذه المقرر حتى الآن.</div>`;
+    : `<div class="empty">لا توجد مصادر مسجلة لهذه المادة حتى الآن.</div>`;
 }
 
 function channelCard(x) {
@@ -726,7 +726,7 @@ async function subjectPage() {
     };
   } catch (e) {
     if (!document.getElementById("app").innerHTML) {
-      shell({ title: "المقرر", active: "subjects" }, "");
+      shell({ title: "المادة", active: "subjects" }, "");
     }
     showError(e);
   }
@@ -738,8 +738,8 @@ function weeklyForm() {
       <select name="day" required>
         ${WEEKDAYS.map(x => `<option value="${x.key}">${x.label}</option>`).join("")}
       </select>
-      <input name="subject" placeholder="المقرر" required>
-      <input name="task" placeholder="المهمة / المحاضرة" required>
+      <input name="subject" placeholder="المادة" required>
+      <input name="task" placeholder="المهمة / الدرس" required>
       <input name="time" type="time" aria-label="الوقت">
       <button class="button" type="submit">＋ إضافة</button>
     </form>`;
@@ -1085,7 +1085,7 @@ async function examsPage() {
   }, `
     <section class="card">
       <form id="examForm" class="form-grid">
-        <input name="subject" placeholder="المقرر" required>
+        <input name="subject" placeholder="المادة" required>
         <input name="name" placeholder="اسم الامتحان">
         <input name="date" type="date" required>
         <input name="time" type="time" required>
@@ -1205,8 +1205,6 @@ onAuthStateChanged(auth, async (user) => {
 };
 init();
 });
-
-
 
 
 

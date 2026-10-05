@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ط®ظڈط·ظ‰ | ط±ظپظٹظ‚ظƒ ظ†ط­ظˆ ط§ظ„طھظپظˆظ‚</title>
+  <title>خُطى | رفيقك نحو التفوق</title>
   <link rel="stylesheet" href="style.css">
   <style>
     body { padding: 20px; font-family: system-ui, sans-serif; background: #f9f9f9; }
@@ -24,8 +24,8 @@
 <body>
   <div style="max-width: 1000px; margin: 0 auto;">
     <div style="display: flex; justify-content: space-between; align-items: center;">
-      <h2>ط¥ط¯ط§ط±ط© ط§ظ„ظ…ظ‚ط±ط±ط§طھ ظˆط§ظ„ظ…ط­ط§ط¶ط±ط§طھ</h2>
-      <a href="/index.html">ط§ظ„ط¹ظˆط¯ط© ظ„ظ„ظ…ظ†طµط© &rarr;</a>
+      <h2>إدارة المقررات والمحاضرات</h2>
+      <a href="/index.html">العودة للمنصة &rarr;</a>
     </div>
 
     <div class="stats" id="statsContainer">
@@ -33,26 +33,26 @@
     </div>
 
     <div class="admin-card">
-      <h3>ط¥ط¶ط§ظپط© ظ…ط­ط§ط¶ط±ط© / ط¯ط±ط³ ط¬ط¯ظٹط¯</h3>
+      <h3>إضافة محاضرة / محاضرة جديد</h3>
       <form id="addLessonForm" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
-        <input type="text" id="subjectInput" placeholder="ط§ظ„ظ…ط§ط¯ط© (ط§ظ„ظ…ظ‚ط±ط±)" required style="padding: 8px; flex: 1; min-width: 200px;">
-        <input type="text" id="unitInput" placeholder="ط§ظ„ظˆط­ط¯ط© / ط§ظ„ظ‚ط³ظ…" required style="padding: 8px; flex: 1; min-width: 200px;">
-        <input type="text" id="lessonInput" placeholder="ط¹ظ†ظˆط§ظ† ط§ظ„ظ…ط­ط§ط¶ط±ط© / ط§ظ„ط¯ط±ط³" required style="padding: 8px; flex: 1; min-width: 200px;">
-        <input type="text" id="pageInput" placeholder="ط§ظ„طµظپط­ط© / ط§ظ„ط±ط§ط¨ط· (ط§ط®طھظٹط§ط±ظٹ)" style="padding: 8px; flex: 1; min-width: 150px;">
-        <button type="submit" style="white-space: nowrap;">ط¥ط¶ط§ظپط© ط§ظ„ظ…ط­ط§ط¶ط±ط©</button>
+        <input type="text" id="subjectInput" placeholder="المقرر (المقرر)" required style="padding: 8px; flex: 1; min-width: 200px;">
+        <input type="text" id="unitInput" placeholder="الوحدة / القسم" required style="padding: 8px; flex: 1; min-width: 200px;">
+        <input type="text" id="lessonInput" placeholder="عنوان المحاضرة / المحاضرة" required style="padding: 8px; flex: 1; min-width: 200px;">
+        <input type="text" id="pageInput" placeholder="الصفحة / الرابط (اختياري)" style="padding: 8px; flex: 1; min-width: 150px;">
+        <button type="submit" style="white-space: nowrap;">إضافة المحاضرة</button>
       </form>
     </div>
 
     <div class="admin-card">
-      <h3>ط§ظ„ظ…ظ‚ط±ط±ط§طھ ظˆط§ظ„ظ…ط­ط§ط¶ط±ط§طھ ط§ظ„ظ…ط¶ط§ظپط©</h3>
+      <h3>المقررات والمحاضرات المضافة</h3>
       <table>
         <thead>
           <tr>
-            <th>ط§ظ„ظ…ط§ط¯ط© (ط§ظ„ظ…ظ‚ط±ط±)</th>
-            <th>ط§ظ„ظˆط­ط¯ط©</th>
-            <th>ط§ظ„ظ…ط­ط§ط¶ط±ط©</th>
-            <th>ط§ظ„طµظپط­ط©/ط§ظ„ط±ط§ط¨ط·</th>
-            <th>ط¥ط¬ط±ط§ط،</th>
+            <th>المقرر (المقرر)</th>
+            <th>الوحدة</th>
+            <th>المحاضرة</th>
+            <th>الصفحة/الرابط</th>
+            <th>إجراء</th>
           </tr>
         </thead>
         <tbody id="lessonsTable">
@@ -83,16 +83,16 @@
         const subjects = [...new Set(allLessons.map(l => l.subject))];
 
         document.getElementById('statsContainer').innerHTML = `
-          <div class="stat-box"><h3>${subjects.length}</h3><p>ظ…ظ‚ط±ط±</p></div>
-          <div class="stat-box"><h3>${allLessons.length}</h3><p>ظ…ط­ط§ط¶ط±ط©</p></div>
-          <div class="stat-box"><h3>${channelsSnap.size}</h3><p>ظ‚ظ†ط§ط© / ظ…طµط¯ط±</p></div>
-          <div class="stat-box"><h3>${examsSnap.size}</h3><p>ط§ظ…طھط­ط§ظ†</p></div>
+          <div class="stat-box"><h3>${subjects.length}</h3><p>مقرر</p></div>
+          <div class="stat-box"><h3>${allLessons.length}</h3><p>محاضرة</p></div>
+          <div class="stat-box"><h3>${channelsSnap.size}</h3><p>قناة / مصدر</p></div>
+          <div class="stat-box"><h3>${examsSnap.size}</h3><p>امتحان</p></div>
         `;
 
         renderLessonsTable();
 
       } catch (err) {
-        alert("ظپط´ظ„ طھط­ظ…ظٹظ„ ط§ظ„ط¨ظٹط§ظ†ط§طھ: " + err.message);
+        alert("فشل تحميل البيانات: " + err.message);
       }
     }
 
@@ -103,13 +103,13 @@
           <td>${l.unit || '-'}</td>
           <td>${l.lesson || '-'}</td>
           <td>${l.page || '-'}</td>
-          <td><button class="delete-btn" data-id="${l.id}" style="background: #f44336;">ط­ط°ظپ</button></td>
+          <td><button class="delete-btn" data-id="${l.id}" style="background: #f44336;">حذف</button></td>
         </tr>
       `).join('');
 
       document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', async (e) => {
-          if (confirm('ظ‡ظ„ ط£ظ†طھ ظ…طھط£ظƒط¯ ظ…ظ† ط­ط°ظپ ظ‡ط°ظ‡ ط§ظ„ظ…ط­ط§ط¶ط±ط©طں ط³ظٹطھظ… ط­ط°ظپ طھظ‚ط¯ظ…ظƒ ط¨ظ‡ط§ ط£ظٹط¶ط§ظ‹.')) {
+          if (confirm('هل أنت متأكد من حذف هذه المحاضرة؟ سيتم حذف تقدمك بها أيضاً.')) {
             const id = e.target.getAttribute('data-id');
             try {
               await deleteDoc(doc(db, 'lessons', id));
@@ -117,7 +117,7 @@
               renderLessonsTable();
               fetchAdminData(); // Refresh stats
             } catch (err) {
-              alert("ط®ط·ط£ ظپظٹ ط§ظ„ط­ط°ظپ: " + err.message);
+              alert("خطأ في الحذف: " + err.message);
             }
           }
         });
@@ -137,14 +137,14 @@
           unit,
           lesson,
           page,
-          stream: 'ظ…ط´طھط±ظƒ' // For single user, stream doesn't matter much
+          stream: 'مشترك' // For single user, stream doesn't matter much
         });
         document.getElementById('addLessonForm').reset();
-        allLessons.push({ id: docRef.id, subject, unit, lesson, page, stream: 'ظ…ط´طھط±ظƒ' });
+        allLessons.push({ id: docRef.id, subject, unit, lesson, page, stream: 'مشترك' });
         renderLessonsTable();
         fetchAdminData(); // Refresh stats
       } catch (err) {
-        alert("ط®ط·ط£ ظپظٹ ط§ظ„ط¥ط¶ط§ظپط©: " + err.message);
+        alert("خطأ في الإضافة: " + err.message);
       }
     });
     
@@ -158,3 +158,5 @@
   </script>
 </body>
 </html>
+
+
